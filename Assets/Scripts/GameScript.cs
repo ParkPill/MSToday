@@ -19,9 +19,16 @@ public class GameScript : MonoBehaviour
     public Text LblTotalCoin;
     public int CoinCount = 0;
     public GameObject BtnBuy0;
+    public GameObject BtnBuy1;
+    public GameObject BtnBuy2;
+    public GameObject BtnBuy3;
+    public GameObject BtnBuy4;
+    public GameObject BtnBuy5;
     public GameObject PnlGameOver;
+    public GameObject Title;
     public Text LblResult;
     public bool IsGameOver;
+    public bool IsStarted = false;
     public GameObject[] Cubes;
     public string CoinKey = "CoinKey";
     public string AirPlaneKey = "AirPlaneKey{0}";
@@ -35,20 +42,32 @@ public class GameScript : MonoBehaviour
         StartCoroutine(Difficulty());
         UpdateUi();
     }
-
+    public void SelectAirplane(int index)
+    {
+        
+    }
     public IEnumerator Difficulty()
     {
         while (true)
         {
             yield return new WaitForSeconds(5);
+            if (IsGameOver || !IsStarted)
+            {
+                continue;
+            }
             CoolTime -= 0.05f;
         }
 
     }
+    public void StartGame()
+    {
+        IsStarted = true;
+    }
     // Update is called once per frame
     void Update()
     {
-        if (IsGameOver)
+
+        if (IsGameOver || !IsStarted)
         {
             return;
         }
@@ -119,7 +138,11 @@ public class GameScript : MonoBehaviour
         Debug.Log("Coin " + count);
         CoinCount += count;
         UpdateUi();
+
+
     }
+
+    
     public void AddSavedCoin(int count)
     {
         int coin = PlayerPrefs.GetInt(CoinKey);
@@ -136,7 +159,33 @@ public class GameScript : MonoBehaviour
         {
             BtnBuy0.SetActive(false);
         }
-
+        didBuy = PlayerPrefs.GetInt(string.Format(AirPlaneKey, 1), 0);
+        if (didBuy == 1)
+        {
+            BtnBuy1.SetActive(false);
+        }
+        didBuy = PlayerPrefs.GetInt(string.Format(AirPlaneKey, 2), 0);
+        if (didBuy == 1)
+        {
+            BtnBuy2.SetActive(false);
+        }
+        didBuy = PlayerPrefs.GetInt(string.Format(AirPlaneKey, 3), 0);
+        if (didBuy == 1)
+        {
+            BtnBuy3.SetActive(false);
+        }
+        didBuy = PlayerPrefs.GetInt(string.Format(AirPlaneKey, 4), 0);
+        if (didBuy == 1)
+        {
+            BtnBuy4.SetActive(false);
+        }
+        didBuy = PlayerPrefs.GetInt(string.Format(AirPlaneKey, 5), 0);
+        if (didBuy == 1)
+        {
+            BtnBuy5.SetActive(false);
+            Debug.Log("sfsdf");
+        }
+        Debug.Log("sfsdf");
 
     }
 }

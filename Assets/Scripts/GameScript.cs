@@ -26,25 +26,52 @@ public class GameScript : MonoBehaviour
     public GameObject BtnBuy5;
     public GameObject PnlGameOver;
     public GameObject Title;
+    public GameObject PnlShop;
+    public GameObject BtnShop;
     public Text LblResult;
     public bool IsGameOver;
     public bool IsStarted = false;
     public GameObject[] Cubes;
     public string CoinKey = "CoinKey";
     public string AirPlaneKey = "AirPlaneKey{0}";
+    public string SelectedAirplane = "SelectedAirplane";
+    public GameObject[] AirPlanes;
 
     // Start is called before the first frame update
     void Start()
 
     {
-        
+        int index = PlayerPrefs.GetInt(SelectedAirplane, 0);
+        SelectAirplane(index);
         LblTotalCoin.text = PlayerPrefs.GetInt(CoinKey).ToString() + "€";
         StartCoroutine(Difficulty());
         UpdateUi();
     }
+    public void CloseShop()
+    {
+        PnlShop.SetActive(false);
+
+    }
+    public void OnShopClick()
+    {
+        PnlShop.SetActive(true);
+    }
     public void SelectAirplane(int index)
     {
-        
+        for (int i = 0; i < AirPlanes.Length; i++)
+        {
+            if (i == index)
+            {
+                AirPlanes[i].SetActive(true);
+            }
+            else
+            {
+                AirPlanes[i].SetActive(false);
+            }
+
+            //AirPlanes[i].SetActive(i == index);
+        }
+         PlayerPrefs.SetInt(SelectedAirplane, index);
     }
     public IEnumerator Difficulty()
     {
@@ -71,6 +98,7 @@ public class GameScript : MonoBehaviour
         {
             return;
         }
+        Title.SetActive(false);
         _gameTime += Time.deltaTime;
         LblTime.text = string.Format("{0:0.0}", _gameTime);
         _coolTime += Time.deltaTime;
